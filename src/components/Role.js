@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import workImg from "../assets/workf.png";
 import { useNavigate } from "react-router-dom";
 
 const Role = () => {
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+
   const handleNext = () => {
-    navigate("/verification");
+    if (isChecked) {
+      navigate("/verification");
+    } else {
+      alert("Please select at least one checkbox");
+    }
   };
   return (
     <div className="w-full min-h-screen">
@@ -54,7 +64,11 @@ const Role = () => {
             <p className="my-2 md:max-w-[200px] w-full">
               I'm a developer seeking inspiration
             </p>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+            />
           </div>
           <div className="border border-gray-200 rounded-lg p-4 text-center flex flex-col items-center group hover:border-pink-500">
             <img
@@ -75,8 +89,11 @@ const Role = () => {
         </div>
         <div className="py-3 md:mt-8 mt-4">
           <button
-            className="bg-[#fb3745] text-white px-5 py-1 rounded-md"
+            className={`bg-[#fb3745] text-white px-5 py-1 rounded-md ${
+              isChecked ? "" : "cursor-not-allowed opacity-50"
+            }`}
             onClick={handleNext}
+            disabled={!isChecked}
           >
             Next
           </button>
